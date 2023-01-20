@@ -1,0 +1,95 @@
+template: true
+valuesFilePath: ./values.yml
+
+resources:
+  - name: slack_notify_publish_gitrepo
+    type: GitRepo
+    configuration:
+      path: {{ .Values.repoPath }}
+      gitProvider: {{ .Values.gitIntegration }}
+      branches:
+        include: ^{{ .Values.mainBranch }}$
+      cloneProtocol: https
+
+pipelines:
+  - name: slack_notify_publish
+    configuration:
+      jfrogCliVersion: 2
+      runtime:
+        type: image
+        image:
+          custom:
+            name: releases-docker.jfrog.io/jfrog/pipelines-u18node
+            tag: "16"
+            autoPull: true
+      environmentVariables:
+        readOnly:
+          TASK_NAME: slack
+          TASK_VERSION: 0.0.2
+          TASK_REPOSITORY: pipelines-tasks-local
+          RESOLVE_REPO: npm-virtual
+    steps:
+      - name: build_and_publish_task
+        type: Bash
+        configuration:
+          inputResources:
+            - name: slack_notify_publish_gitrepo
+              trigger: false
+          integrations:
+            - name: {{ .Values.artIntegration }}
+        execution:
+          onExecute:
+            # Make sure version was provided
+            - test -n "$TASK_VERSION" -a "$TASK_VERSION" != "0.0.0"
+
+            - pushd $res_slack_notify_publish_gitrepo_resourcePath
+            # Configure JFrog CLI
+            - jfrog npmc --repo-resolve $RESOLVE_REPO
+            # Install npm dependencies
+            - jfrog npm install
+            # Build task runnable script bundled with dependencies
+            - npm run dist
+            - popd
+
+            # Run publish task
+            - task: jfrog/publish-task@v0.0.2
+              id: publish-slack
+              input:
+                path: $res_slack_notify_publish_gitrepo_resourcePath
+                targetRepository: $TASK_REPOSITORY
+                taskName: $TASK_NAME
+                taskVersion: $TASK_VERSION
+                includePattern: ^README.md$|^dist
+
+      - name: test_published_task
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: build_and_publish_task
+          integrations:
+            - name: {{ .Values.artIntegration }}
+            - name: {{ .Values.slackIntegration }}
+            - name: {{ .Values.tokenIntegration }}
+        execution:
+          onExecute:
+            # Run task
+            - task: $TASK_NAME@v$TASK_VERSION
+              id: slack_test
+              input:
+                # control feature releases - NA
+                api: "developer"
+                # integration to read slack secret token
+                tokenIntegration: {{ .Values.tokenIntegration }}
+                # set environment variable name used to store token
+                token: "SLACK_TOKEN"
+                # workspace name - placeholder - NA
+                workspace: "JFrog"
+                # message to be sent to slack
+                message: "Hello there, sent via JFrog Pipe Slack Notify"
+                # username starts with '@', channel starts with '#' - used when useIntegration is false
+                to: "@bhanur"
+                # create slack integration in JFrog pipelines and update in .jfrog-pipelines/values.yaml, accessed when useIntegration is true
+                slackIntegration: {{ .Values.slackIntegration }}
+
+          onComplete:
+            - echo "Test published task done!"

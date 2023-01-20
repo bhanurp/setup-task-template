@@ -1,0 +1,103 @@
+template: true
+valuesFilePath: ./values.yml
+
+resources:
+  - name: slack_notify_gitrepo
+    type: GitRepo
+    configuration:
+      path: {{ .Values.repoPath }}
+      gitProvider: {{ .Values.gitIntegration }}
+      branches:
+        include: ^{{ .Values.mainBranch }}$
+      cloneProtocol: https
+
+pipelines:
+  - name: slack_notify_test
+    configuration:
+      jfrogCliVersion: 2
+      runtime:
+        type: image
+        image:
+          custom:
+            name: releases-docker.jfrog.io/jfrog/pipelines-u18node
+            tag: "16"
+            autoPull: true
+      environmentVariables:
+        readOnly:
+          RESOLVE_REPO: npm-virtual
+
+    steps:
+      - name: test_task
+        type: Bash
+        configuration:
+          inputResources:
+            - name: slack_notify_gitrepo
+          integrations:
+            - name: {{ .Values.artIntegration }}
+            - name: {{ .Values.slackIntegration }}
+            - name: {{ .Values.tokenIntegration }}
+            - name: {{ .Values.cacheArtIntegration}}
+        execution:
+          onExecute:
+            - pushd $res_slack_notify_gitrepo_resourcePath
+            # Configure JFrog CLI
+            - jfrog npmc --repo-resolve $RESOLVE_REPO
+            # Install npm dependencies
+            - jfrog npm install
+            # Build task runnable script bundled with dependencies
+            - npm run dist
+            # create test coverage report
+            - npx jest --coverage
+            - echo "$pipeline_name"
+            - popd
+            - exit 1
+            - task: jfrog/setup-node@v0.0.1
+              input:
+                version: "{{ .Values.nodeVersion }}"
+                cacheRepository: "{{ .Values.cacheArtIntegration}}"
+                cacheIntegration: entplus_deployer
+            - echo $OUT_setup_node_demo_node_path
+            - echo $OUT_setup_node_demo_node_bin
+            # Run task
+            - task: $res_slack_notify_gitrepo_resourcePath
+              id: slack_test
+              input:
+                # control feature releases - NA
+                api: "developer"
+                # integration to read slack secret token
+                tokenIntegration: {{ .Values.tokenIntegration }}
+                # set environment variable name used to store token
+                token: "SLACK_TOKEN"
+                # workspace name - placeholder - NA
+                workspace: "JFrog"
+                template: pipeinfo
+                # message to be sent to slack
+                message: "Hello there, sent via JFrog Pipe Slack Notify $pipelinename"
+                # username starts with '@', channel starts with '#' - used when useIntegration is false
+                to: "@bhanur"
+                # create slack integration in JFrog pipelines and update in .jfrog-pipelines/values.yaml, accessed when useIntegration is true
+                slackIntegration: {{ .Values.slackIntegration }}
+            - task:
+            - echo "message sent to slack is $OUT_slack_test_message_sent"
+          onFailure:
+            # Run task
+            - task: $res_slack_notify_gitrepo_resourcePath
+              id: slack_test
+              input:
+                # control feature releases - NA
+                api: "developer"
+                # integration to read slack secret token
+                tokenIntegration: {{ .Values.tokenIntegration }}
+                # set environment variable name used to store token
+                token: "SLACK_TOKEN"
+                # workspace name - placeholder - NA
+                workspace: "JFrog"
+                # message to be sent to slack
+                message: ":red_circle: build failed"
+                # username starts with '@', channel starts with '#' - used when useIntegration is false
+                to: "@bhanur"
+                # create slack integration in JFrog pipelines and update in .jfrog-pipelines/values.yaml, accessed when useIntegration is true
+                slackIntegration: {{ .Values.slackIntegration }}
+
+          onComplete:
+            - echo "Slack Notify Test done!"

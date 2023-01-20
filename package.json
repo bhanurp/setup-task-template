@@ -1,0 +1,33 @@
+{
+  "name": "setup-task-template",
+  "version": "0.0.1",
+  "description": "a skeleton which can be used for creating package setup Jfrog pipelines tasks",
+  "main": "index.js",
+  "scripts": {
+    "dist": "ncc build src/index.js -o dist",
+    "test": "jest --coverage"
+  },
+  "dependencies": {
+    "jfrog-pipelines-tasks": "^0.0.11",
+    "semver": "^7.3.8"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "0.34.0",
+    "jest": "29.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhanurp/setup-task-template.git"
+  },
+  "keywords": [
+    "pipelines",
+    "jfrog",
+    "template"
+  ],
+  "author": "bhanur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bhanurp/setup-task-template/issues"
+  },
+  "homepage": "https://github.com/bhanurp/setup-task-template#readme"
+}
