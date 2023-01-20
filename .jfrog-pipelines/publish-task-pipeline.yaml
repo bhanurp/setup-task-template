@@ -2,7 +2,7 @@ template: true
 valuesFilePath: ./values.yml
 
 resources:
-  - name: slack_notify_publish_gitrepo
+  - name: package_template
     type: GitRepo
     configuration:
       path: {{ .Values.repoPath }}
@@ -12,7 +12,7 @@ resources:
       cloneProtocol: https
 
 pipelines:
-  - name: slack_notify_publish
+  - name: package_template_publish
     configuration:
       jfrogCliVersion: 2
       runtime:
@@ -33,7 +33,7 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
-            - name: slack_notify_publish_gitrepo
+            - name: package_template_publish
               trigger: false
           integrations:
             - name: {{ .Values.artIntegration }}
@@ -53,9 +53,9 @@ pipelines:
 
             # Run publish task
             - task: jfrog/publish-task@v0.0.2
-              id: publish-slack
+              id: publish-package-template
               input:
-                path: $res_slack_notify_publish_gitrepo_resourcePath
+                path: $res_package_template_publish_resourcePath
                 targetRepository: $TASK_REPOSITORY
                 taskName: $TASK_NAME
                 taskVersion: $TASK_VERSION
@@ -74,7 +74,7 @@ pipelines:
           onExecute:
             # Run task
             - task: $TASK_NAME@v$TASK_VERSION
-              id: slack_test
+              id: package_template_test
               input:
                 # control feature releases - NA
                 api: "developer"
