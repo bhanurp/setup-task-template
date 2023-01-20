@@ -2,7 +2,7 @@ template: true
 valuesFilePath: ./values.yml
 
 resources:
-  - name: package_template
+  - name: package_template_publish
     type: GitRepo
     configuration:
       path: {{ .Values.repoPath }}
