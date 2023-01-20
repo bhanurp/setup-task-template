@@ -1,6 +1,6 @@
-repoPath: bhanurp/slack-pipe
+repoPath: bhanurp/setup-task-template
 mainBranch: master
-gitIntegration: int_github_slack
+gitIntegration: int_gh_pipe_cli
 artIntegration: int_default_artifactory
 slackIntegration: int_slack_publish_task
 tokenIntegration: int_slack_token

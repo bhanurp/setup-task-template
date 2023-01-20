@@ -2,7 +2,7 @@ template: true
 valuesFilePath: ./values.yml
 
 resources:
-  - name: slack_notify_gitrepo
+  - name: package_template
     type: GitRepo
     configuration:
       path: {{ .Values.repoPath }}
@@ -12,7 +12,7 @@ resources:
       cloneProtocol: https
 
 pipelines:
-  - name: slack_notify_test
+  - name: package_template_test
     configuration:
       jfrogCliVersion: 2
       runtime:
@@ -31,7 +31,7 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
-            - name: slack_notify_gitrepo
+            - name: package_template
           integrations:
             - name: {{ .Values.artIntegration }}
             - name: {{ .Values.slackIntegration }}
