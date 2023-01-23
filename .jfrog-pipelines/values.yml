@@ -5,6 +5,6 @@ artIntegration: int_default_artifactory
 slackIntegration: int_slack_publish_task
 tokenIntegration: int_slack_token
 windowsNodePool:
-nodeVersion: 18.12.1
+nodeVersion: 16.13.2
 cacheArtIntegration: package_template_rt
 cacheArtRepository: example-repo-local

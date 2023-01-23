@@ -51,7 +51,6 @@ pipelines:
             # Install npm dependencies
             - jfrog npm install
             # Build task runnable script bundled with dependencies
-            - nvm install 16.15.1
             - npm run dist
             # create test coverage report
             - npx jest --coverage
