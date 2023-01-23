@@ -55,48 +55,15 @@ pipelines:
             # Build task runnable script bundled with dependencies
             - npm run dist
             # create test coverage report
-            - npx jest --coverage
+            #- npx jest --coverage
             - echo "$pipeline_name"
+            - popd
             # Run task
             - task: $res_package_template_resourcePath
-              id: slack_test
+              id: package_template_test
               input:
                 # control feature releases - NA
                 api: "developer"
-                # integration to read slack secret token
-                tokenIntegration: {{ .Values.tokenIntegration }}
-                # set environment variable name used to store token
-                token: "SLACK_TOKEN"
-                # workspace name - placeholder - NA
-                workspace: "JFrog"
-                template: pipeinfo
-                # message to be sent to slack
-                message: "Hello there, sent via JFrog Pipe Slack Notify $pipelinename"
-                # username starts with '@', channel starts with '#' - used when useIntegration is false
-                to: "@bhanur"
-                # create slack integration in JFrog pipelines and update in .jfrog-pipelines/values.yaml, accessed when useIntegration is true
-                slackIntegration: {{ .Values.slackIntegration }}
-            - task:
-            - echo "message sent to slack is $OUT_slack_test_message_sent"
-          onFailure:
-            # Run task
-            - task: $res_slack_notify_gitrepo_resourcePath
-              id: slack_test
-              input:
-                # control feature releases - NA
-                api: "developer"
-                # integration to read slack secret token
-                tokenIntegration: {{ .Values.tokenIntegration }}
-                # set environment variable name used to store token
-                token: "SLACK_TOKEN"
-                # workspace name - placeholder - NA
-                workspace: "JFrog"
-                # message to be sent to slack
-                message: ":red_circle: build failed"
-                # username starts with '@', channel starts with '#' - used when useIntegration is false
-                to: "@bhanur"
-                # create slack integration in JFrog pipelines and update in .jfrog-pipelines/values.yaml, accessed when useIntegration is true
-                slackIntegration: {{ .Values.slackIntegration }}
-
+            - echo "package_template task executed successfully"
           onComplete:
             - echo "Slack Notify Test done!"

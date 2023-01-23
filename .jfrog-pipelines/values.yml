@@ -1,5 +1,5 @@
 repoPath: bhanurp/setup-task-template
-mainBranch: master
+mainBranch: main
 gitIntegration: int_gh_pipe_cli
 artIntegration: int_default_artifactory
 slackIntegration: int_slack_publish_task
