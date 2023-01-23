@@ -53,4 +53,4 @@ pipelines:
               id: package_template_test
             - echo "package_template task executed successfully"
           onComplete:
-            - echo "Slack Notify Test done!"
+            - echo "setup task template Test done!"
