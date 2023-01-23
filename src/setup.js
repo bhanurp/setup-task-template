@@ -54,7 +54,7 @@ function createTargetFolder() {
 }
 
 function run() {
-  let downloadStr = downloader.download("", "", "", "").then(r => r.toString())
+  let downloadStr = downloader.download(", "", "").then(r => r.toString())
 }
 
 module.exports = {
