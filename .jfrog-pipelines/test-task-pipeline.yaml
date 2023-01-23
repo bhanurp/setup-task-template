@@ -38,6 +38,14 @@ pipelines:
             - name: {{ .Values.tokenIntegration }}
             - name: {{ .Values.cacheArtIntegration}}
         execution:
+          onStart:
+            - task: jfrog/setup-node@v0.0.1
+              input:
+                version: "{{ .Values.nodeVersion }}"
+                cacheRepository: "{{ .Values.cacheArtIntegration}}"
+                cacheIntegration: entplus_deployer
+            - echo $OUT_setup_node_demo_node_path
+            - echo $OUT_setup_node_demo_node_bin
           onExecute:
             - pushd $res_slack_notify_gitrepo_resourcePath
             # Configure JFrog CLI
@@ -49,15 +57,6 @@ pipelines:
             # create test coverage report
             - npx jest --coverage
             - echo "$pipeline_name"
-            - popd
-            - exit 1
-            - task: jfrog/setup-node@v0.0.1
-              input:
-                version: "{{ .Values.nodeVersion }}"
-                cacheRepository: "{{ .Values.cacheArtIntegration}}"
-                cacheIntegration: entplus_deployer
-            - echo $OUT_setup_node_demo_node_path
-            - echo $OUT_setup_node_demo_node_bin
             # Run task
             - task: $res_slack_notify_gitrepo_resourcePath
               id: slack_test
