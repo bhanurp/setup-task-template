@@ -34,9 +34,6 @@ pipelines:
             - name: package_template
           integrations:
             - name: {{ .Values.artIntegration }}
-            - name: {{ .Values.slackIntegration }}
-            - name: {{ .Values.tokenIntegration }}
-            - name: {{ .Values.cacheArtIntegration}}
         execution:
           onStart:
             - task: jfrog/setup-node@v0.0.1
