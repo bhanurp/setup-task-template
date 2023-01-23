@@ -7,11 +7,10 @@ async function download(targetFolder, cacheIntegration, cacheRepository) {
   const url = computeDownloadUrl().then(() => {
     return value
   })
-  tasks.info(`package url: ${url}`);
   if (!cacheIntegration || !cacheRepository) {
     tasks.warning("Cache configuration not set. Caching will be skipped.");
   }
-  await tasks.execute(url)
+  tasks.info("completed installation of yarn")
 }
 
 async function computeDownloadUrl() {
@@ -25,9 +24,11 @@ async function computeDownloadUrl() {
 
   let isNewNodeVersion = semver.gte(nodeVersion, '16.10.0')
   if (isNewNodeVersion) {
-    return Promise.resolve('corepack enable')
+    await tasks.execute("corepack enable")
+    return Promise.resolve('success')
   }
-  return Promise.resolve('npm i -g corepack')
+  await tasks.execute("npm i -g corepack")
+  return Promise.resolve('success')
 }
 
 module.exports = {
