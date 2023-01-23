@@ -4,7 +4,9 @@ const resolve = require("resolve");
 
 async function download(targetFolder, cacheIntegration, cacheRepository) {
 
-  const url = computeDownloadUrl()
+  const url = computeDownloadUrl().then((value) => {
+    return value
+  })
   tasks.info(`package url: ${url}`);
   if (!cacheIntegration || !cacheRepository) {
     tasks.warning("Cache configuration not set. Caching will be skipped.");
