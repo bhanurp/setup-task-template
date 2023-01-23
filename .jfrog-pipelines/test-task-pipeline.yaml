@@ -33,13 +33,14 @@ pipelines:
           inputResources:
             - name: package_template
           integrations:
-            - name: {{ .Values.artIntegration }}
+            - name: "{{ .Values.cacheArtIntegration}}"
         execution:
           onStart:
             - task: jfrog/setup-node@v0.0.1
               input:
                 version: "{{ .Values.nodeVersion }}"
                 cacheRepository: "{{ .Values.cacheArtRepository}}"
+                cacheIntegration: "{{ .Values.cacheArtIntegration}}"
             - echo $OUT_setup_node_demo_node_path
             - echo $OUT_setup_node_demo_node_bin
           onExecute:
