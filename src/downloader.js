@@ -2,6 +2,7 @@ const tasks = require("jfrog-pipelines-tasks");
 const semver = require("semver");
 
 async function download(version, targetFolder, cacheIntegration, cacheRepository) {
+
   const url = computeDownloadUrl(version);
   tasks.info(`package url: ${url}`);
   if (!cacheIntegration || !cacheRepository) {
