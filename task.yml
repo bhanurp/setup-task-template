@@ -2,7 +2,7 @@ name: setup-task
 description: Setup package task
 source: bhanurp/setup-task-template
 labels:
-  - {package}
+  - template
   - setup
 input:
   - name: version
