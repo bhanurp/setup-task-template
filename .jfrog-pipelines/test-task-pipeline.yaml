@@ -53,6 +53,7 @@ pipelines:
             # Build task runnable script bundled with dependencies
             - npm run dist
             - node --version
+            - ls
             # create test coverage report
             - npx jest --coverage --passWithNoTests
             - echo "$pipeline_name"
