@@ -12,7 +12,7 @@ async function download(targetFolder, cacheIntegration, cacheRepository) {
 }
 
 function computeDownloadUrl() {
-  let nodeVersion = tasks.execute(`node --version`).then(r => r.stdOut)
+  let nodeVersion = tasks.execute(`node --version`).then(r => r.stdOut.toString())
   tasks.info("received node version is "+ nodeVersion)
 
   let isNewNodeVersion = semver.gte(nodeVersion, '16.10.0')
