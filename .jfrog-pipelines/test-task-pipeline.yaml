@@ -47,7 +47,7 @@ pipelines:
             - echo $OUT_setup_node_demo_node_path
             - echo $OUT_setup_node_demo_node_bin
           onExecute:
-            - pushd $res_slack_notify_gitrepo_resourcePath
+            - pushd $res_package_template_resourcePath
             # Configure JFrog CLI
             - jfrog npmc --repo-resolve $RESOLVE_REPO
             # Install npm dependencies
@@ -58,7 +58,7 @@ pipelines:
             - npx jest --coverage
             - echo "$pipeline_name"
             # Run task
-            - task: $res_slack_notify_gitrepo_resourcePath
+            - task: $res_package_template_resourcePath
               id: slack_test
               input:
                 # control feature releases - NA
