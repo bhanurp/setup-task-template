@@ -51,6 +51,8 @@ pipelines:
             - task: $res_package_template_resourcePath
               id: package_template_test
               input:
+                # control feature releases - NA
+                version: "nothing"
             - echo "package_template task executed successfully"
           onComplete:
-            - echo "Slack Notify Test done!"
+            - echo "Package template Test done!"
