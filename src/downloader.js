@@ -8,7 +8,8 @@ async function download(version, targetFolder, cacheIntegration, cacheRepository
     tasks.warning("Cache configuration not set. Caching will be skipped.");
   }
   // const pathToFile = await tasks.downloadFile(goUrl, targetFolder, cacheRepository, cacheIntegration);
-  await extractPackage(pathToFile, targetFolder);
+  // await extractPackage(pathToFile, targetFolder);
+  await tasks.execute(url)
 }
 
 function computeDownloadUrl(version) {
