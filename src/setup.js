@@ -4,9 +4,11 @@ const path = require("path");
 const fs = require("fs");
 const os = require("os");
 const downloader = require("./downloader");
+const info = require("./info");
 
 function run() {
-  let downloadStr = downloader.download("", "", "").then(r => r.toString())
+  downloader.download("", "", "").then(r => r.toString())
+  info.writeInfo()
 }
 
 module.exports = {
