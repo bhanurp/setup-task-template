@@ -4,7 +4,7 @@ const resolve = require("resolve");
 
 async function download(targetFolder, cacheIntegration, cacheRepository) {
 
-  const url = computeDownloadUrl().then((value) => {
+  const url = computeDownloadUrl().then(() => {
     return value
   })
   tasks.info(`package url: ${url}`);
