@@ -6,4 +6,5 @@ slackIntegration: int_slack_publish_task
 tokenIntegration: int_slack_token
 windowsNodePool:
 nodeVersion: 18.12.1
-cacheArtIntegration: pipelines-tasks-cache-local
+cacheArtIntegration: artifactory
+cacheArtRepository: pipelines-tasks-cache-local
