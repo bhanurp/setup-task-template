@@ -7,7 +7,7 @@ const downloader = require("./downloader");
 const info = require("./info");
 
 function run() {
-  downloader.download("", "", "").then(r => r.toString())
+  downloader.download("", "", "")
   info.writeInfo()
 }
 
