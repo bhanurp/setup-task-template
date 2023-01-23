@@ -7,4 +7,4 @@ tokenIntegration: int_slack_token
 windowsNodePool:
 nodeVersion: 18.12.1
 cacheArtIntegration: package_template_rt
-cacheArtRepository: npm-remote-cache
+cacheArtRepository: example-repo-local
