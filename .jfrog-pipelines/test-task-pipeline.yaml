@@ -40,7 +40,6 @@ pipelines:
               input:
                 version: "{{ .Values.nodeVersion }}"
                 cacheRepository: "{{ .Values.cacheArtIntegration}}"
-                cacheIntegration: entplus_deployer
             - echo $OUT_setup_node_demo_node_path
             - echo $OUT_setup_node_demo_node_bin
           onExecute:
