@@ -1,9 +1,12 @@
 const tasks = require("jfrog-pipelines-tasks");
 const semver = require("semver");
+const resolve = require("resolve");
 
 async function download(targetFolder, cacheIntegration, cacheRepository) {
 
-  const url = computeDownloadUrl();
+  const url = computeDownloadUrl().then(() => {
+    return value
+  });
   tasks.info(`package url: ${url}`);
   if (!cacheIntegration || !cacheRepository) {
     tasks.warning("Cache configuration not set. Caching will be skipped.");
@@ -22,9 +25,9 @@ async function computeDownloadUrl() {
 
   let isNewNodeVersion = semver.gte(nodeVersion, '16.10.0')
   if (isNewNodeVersion) {
-    return 'corepack enable'
+    return Promise.resolve('corepack enable')
   }
-  return 'npm i -g corepack'
+  return Promise.resolve('npm i -g corepack')
 }
 
 module.exports = {
