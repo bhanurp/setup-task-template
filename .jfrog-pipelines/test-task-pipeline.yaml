@@ -46,14 +46,6 @@ pipelines:
             - echo $OUT_setup_node_demo_node_bin
           onExecute:
             - pushd $res_package_template_resourcePath
-            # Configure JFrog CLI
-            - jfrog npmc --repo-resolve $RESOLVE_REPO
-            # Install npm dependencies
-            - jfrog npm install
-            # Build task runnable script bundled with dependencies
-            - npm run dist
-            # create test coverage report
-            #- npx jest --coverage
             - echo "$pipeline_name"
             - popd
             # Run task
