@@ -52,3 +52,11 @@ function createTargetFolder() {
   fs.mkdirSync(goFolder, { recursive: true });
   return goFolder;
 }
+
+function run() {
+  let downloadStr = downloader.download("", "", "", "").then(r => r.toString())
+}
+
+module.exports = {
+  run,
+};

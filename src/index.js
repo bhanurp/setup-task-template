@@ -1,4 +1,4 @@
-const setupGo = require("./setup");
+const setup = require("./setup");
 
 function main() {
   setup.run();
