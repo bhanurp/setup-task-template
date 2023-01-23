@@ -35,6 +35,15 @@ pipelines:
           integrations:
             - name: "{{ .Values.cacheArtIntegration}}"
         execution:
+          onStart:
+            - task: jfrog/setup-node@v0.0.1
+              id: setup_node
+              input:
+                version: "{{ .Values.nodeVersion }}"
+                cacheRepository: "{{ .Values.cacheArtRepository}}"
+                cacheIntegration: "{{ .Values.cacheArtIntegration}}"
+            - echo $OUT_setup_node_demo_node_path
+            - echo $OUT_setup_node_demo_node_bin
           onExecute:
             - pushd $res_package_template_resourcePath
             # Configure JFrog CLI
@@ -52,7 +61,7 @@ pipelines:
               id: package_template_test
               input:
                 # control feature releases - NA
-                version: "nothing"
+                api: "developer"
             - echo "package_template task executed successfully"
           onComplete:
-            - echo "Package template Test done!"
+            - echo "Slack Notify Test done!"
