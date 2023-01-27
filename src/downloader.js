@@ -18,15 +18,14 @@ async function download(targetFolder, cacheIntegration, cacheRepository) {
 
 async function computeDownloadUrl() {
   const {stdOut, stdErr} = await tasks.execute("node --version")
-  const goPath = (await tasks.execute("node --version")).stdOut;
-  tasks.info("received node version:"+ goPath)
   if (stdErr) {
     tasks.error(stdErr)
     return Promise.reject('failed to fetch node version')
   }
-  tasks.info("received node version is " + stdOut.toString())
+  tasks.info("Received node version is:" + stdOut.toString())
 
-  let isNewNodeVersion = semver.gte(nodeVersion, '16.10.0')
+  let isNewNodeVersion = semver.gte(stdOut.toString(), '16.10.0')
+  tasks.info("node version:"+isNewNodeVersion)
   if (isNewNodeVersion) {
     await tasks.execute("corepack enable")
     return Promise.resolve('success')
