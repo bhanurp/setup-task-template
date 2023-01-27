@@ -18,11 +18,12 @@ async function download(targetFolder, cacheIntegration, cacheRepository) {
 }
 
 async function computeDownloadUrl() {
-  //let nodeVersion = tasks.execute(`node --version`).then(r => r.stdOut.toString())
   const {stdOut, stdErr} = tasks.execute("node --version")
+  const goPath = (await tasks.execute("node --versions")).stdOut;
+  tasks.info("received node version:"+ goPath)
   if (stdErr) {
     tasks.error(stdErr)
-    return
+    return Promise.reject('failed to fetch node version')
   }
   tasks.info("received node version is " + stdOut.toString())
 
