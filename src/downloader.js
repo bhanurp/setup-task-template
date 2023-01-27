@@ -18,7 +18,7 @@ async function download(targetFolder, cacheIntegration, cacheRepository) {
 
 async function computeDownloadUrl() {
   //let nodeVersion = tasks.execute(`node --version`).then(r => r.stdOut.toString())
-  const {stdOut, stdErr} = (await tasks.execute("node --version"))
+  const {stdOut, stdErr} = (tasks.execute("node --version"))
   if (stdErr) {
     tasks.error(stdErr)
     return
