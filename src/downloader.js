@@ -6,7 +6,8 @@ async function download(targetFolder, cacheIntegration, cacheRepository) {
 
   const url = computeDownloadUrl().then((message) => {
     return message
-  }).catch(() => {
+  }).catch((message) => {
+    tasks.error(message)
     tasks.error("failed to resolve download url")
   })
   if (!cacheIntegration || !cacheRepository) {
