@@ -17,8 +17,8 @@ async function download(targetFolder, cacheIntegration, cacheRepository) {
 }
 
 async function computeDownloadUrl() {
-  const {stdOut, stdErr} = tasks.execute("node --version")
-  const goPath = (await tasks.execute("node --versions")).stdOut;
+  const {stdOut, stdErr} = await tasks.execute("node --version")
+  const goPath = (await tasks.execute("node --version")).stdOut;
   tasks.info("received node version:"+ goPath)
   if (stdErr) {
     tasks.error(stdErr)
