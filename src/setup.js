@@ -8,6 +8,12 @@ const info = require("./info");
 
 function run() {
   downloader.download("", "", "")
+    .then((message) => {
+      tasks.info("received message:"+message)
+      tasks.info("completed downloading and installation of yarn")
+    }).catch(() => {
+      tasks.error("failed to install yarn")
+  })
   info.writeInfo()
 }
 
