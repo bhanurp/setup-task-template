@@ -6,15 +6,15 @@ const os = require("os");
 const downloader = require("./downloader");
 const info = require("./info");
 
-function run() {
-  downloader.download("", "", "")
-    .then((message) => {
-      tasks.info("received message:"+message)
-      tasks.info("completed downloading and installation of yarn")
-    }).catch(() => {
-      tasks.error("failed to install yarn")
-  })
-  info.writeInfo()
+async function run() {
+  try {
+    const message = await downloader.download("", "", "")
+    tasks.info("Received message:" + message)
+    await info.writeInfo()
+  } catch (err) {
+    tasks.error(err)
+    return err
+  }
 }
 
 module.exports = {
