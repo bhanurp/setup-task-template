@@ -20,7 +20,7 @@ async function computeDownloadUrl() {
   const {stdOut, stdErr} = await tasks.execute("node --version")
   if (stdErr) {
     tasks.error(stdErr)
-    return Promise.reject('failed to fetch node version')
+    await Promise.reject('failed to fetch node version')
   }
   tasks.info("Received node version is:" + stdOut.toString())
 
@@ -28,10 +28,8 @@ async function computeDownloadUrl() {
   tasks.info("node version:"+isNewNodeVersion)
   if (isNewNodeVersion) {
     await tasks.execute("corepack enable")
-    return Promise.resolve('success')
   }
   await tasks.execute("npm i -g corepack")
-  return Promise.resolve('success')
 }
 
 module.exports = {
