@@ -6,7 +6,7 @@ const {error} = require("jfrog-pipelines-tasks");
 async function download(targetFolder, cacheIntegration, cacheRepository) {
 
   const url = await computeDownloadUrl().then((message) => {
-    return message
+   tasks.info(message)
   }).catch((message) => {
     tasks.error("failed to resolve download url")
     return error(message)
@@ -14,6 +14,7 @@ async function download(targetFolder, cacheIntegration, cacheRepository) {
   if (!cacheIntegration || !cacheRepository) {
     tasks.warning("Cache configuration not set. Caching will be skipped.");
   }
+  return url
 }
 
 async function computeDownloadUrl() {
