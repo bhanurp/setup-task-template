@@ -12,7 +12,6 @@ async function computeDownloadUrl() {
   try {
     const commandOutput = await tasks.execute("node --version")
     handleCommandOutput(commandOutput)
-    tasks.info("Received node version is:" + stdOut.toString())
     const installCommandOutput = await tasks.execute("npm install --global yarn")
     handleCommandOutput(installCommandOutput)
   } catch (e) {
