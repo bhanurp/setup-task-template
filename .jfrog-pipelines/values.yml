@@ -1,6 +1,6 @@
 repoPath: bhanurp/setup-task-template
 mainBranch: main
-gitIntegration: int_gh_pipe_cli
+gitIntegration: gh_int_bhanu
 artIntegration: int_default_artifactory
 slackIntegration: int_slack_publish_task
 tokenIntegration: int_slack_token
