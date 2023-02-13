@@ -40,7 +40,7 @@ pipelines:
           onExecute:
             # Make sure version was provided
             - test -n "$TASK_VERSION" -a "$TASK_VERSION" != "0.0.0"
-            - pushd $res_frogbot_publish_gitrepo_resourcePath
+            - pushd $res_setup_yarn_publish_resourcePath
             # Configure JFrog CLI
             - jfrog npmc --repo-resolve $RESOLVE_REPO
             # Install npm dependencies
