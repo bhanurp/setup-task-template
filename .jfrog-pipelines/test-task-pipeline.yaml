@@ -33,7 +33,7 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
-            - name: package_template
+            - name: setup_yarn
           integrations:
             - name: "{{ .Values.cacheArtIntegration}}"
         execution:
