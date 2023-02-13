@@ -8,4 +8,4 @@ input:
   - name: version
     description: version to be installed
 execution:
-  - node16 dist/setup.js
+  - node16 dist/setup.js main
