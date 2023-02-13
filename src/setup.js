@@ -25,7 +25,7 @@ function readAndValidateInput() {
   } else {
     inputVersion = semver.valid(inputVersion);
     if (!inputVersion) {
-      throw "version input must be semver compatible";
+      throw new Error("version input must be semver compatible");
     }
   }
   return inputVersion

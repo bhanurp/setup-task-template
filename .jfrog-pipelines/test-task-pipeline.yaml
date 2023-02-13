@@ -56,8 +56,6 @@ pipelines:
             # Run task
             - task: $res_setup_yarn_resourcePath
               id: setup_yarn_test
-              input:
-                version:
             - echo "setup yarn completed"
           onComplete:
             - echo "setup task template Test done!"
