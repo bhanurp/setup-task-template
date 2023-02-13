@@ -66,10 +66,6 @@ pipelines:
             - name: build_and_publish_task
           inputResources:
             - name: setup_yarn
-          integrations:
-            - name: {{ .Values.artIntegration }}
-            - name: {{ .Values.accessToken }}
-            - name: {{ .Values.gitToken }}
         execution:
           onStart:
             - task: jfrog/setup-node@v0.0.1
