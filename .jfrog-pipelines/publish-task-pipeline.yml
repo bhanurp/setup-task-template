@@ -12,7 +12,7 @@ resources:
       cloneProtocol: https
 
 pipelines:
-  - name: setup_yarn_publish
+  - name: setup_yarn_publish_pipe
     configuration:
       jfrogCliVersion: 2
       runtime:
