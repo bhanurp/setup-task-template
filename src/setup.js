@@ -20,7 +20,7 @@ async function run() {
  */
 function readAndValidateInput() {
   let inputVersion = tasks.getInput('version');
-  if (!inputVersion || inputVersion === '') {
+  if (!inputVersion || inputVersion === '' || inputVersion === 'null') {
     inputVersion = 'latest'
   } else {
     inputVersion = semver.valid(inputVersion);
