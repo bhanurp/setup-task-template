@@ -1,8 +1,9 @@
-repoPath: bhanurp/setup-task-template
+repoPath: bhanurp/setup-yarn
 mainBranch: main
 gitIntegration: gh_int_bhanu
 artIntegration: int_default_artifactory
 windowsNodePool:
 nodeVersion: 16.13.2
+yarnVersion:
 cacheArtIntegration: package_template_rt
 cacheArtRepository: example-repo-local

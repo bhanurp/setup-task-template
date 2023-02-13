@@ -2,7 +2,7 @@ template: true
 valuesFilePath: ./values.yml
 
 resources:
-  - name: package_template
+  - name: setup-yarn
     type: GitRepo
     configuration:
       path: {{ .Values.repoPath }}
@@ -12,7 +12,7 @@ resources:
       cloneProtocol: https
 
 pipelines:
-  - name: package_template_test
+  - name: yarn_setup_test
     configuration:
       jfrogCliVersion: 2
       runtime:
@@ -27,7 +27,7 @@ pipelines:
           RESOLVE_REPO: npm-virtual
 
     steps:
-      - name: test_task
+      - name: test_yarn
         type: Bash
         configuration:
           inputResources:
@@ -40,22 +40,12 @@ pipelines:
               id: setup_node
               input:
                 version: "{{ .Values.nodeVersion }}"
-                cacheRepository: "{{ .Values.cacheArtRepository}}"
-                cacheIntegration: "{{ .Values.cacheArtIntegration}}"
-            - echo $OUT_setup_node_demo_node_path
-            - echo $OUT_setup_node_demo_node_bin
           onExecute:
             - pushd $res_package_template_resourcePath
             # Configure JFrog CLI
             - jfrog npmc --repo-resolve $RESOLVE_REPO
-            # Install npm dependencies
-            - jfrog npm install
-            # Build task runnable script bundled with dependencies
-            - npm run dist
-            - node --version
             # create test coverage report
-            - npx jest --coverage --passWithNoTests
-            - echo "$pipeline_name"
+            - npx jest --coverage
             - popd
             # Run task
             - task: $res_package_template_resourcePath

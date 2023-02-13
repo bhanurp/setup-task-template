@@ -1,10 +1,10 @@
 {
-  "name": "setup-task-template",
+  "name": "setup-yarn",
   "version": "0.0.1",
-  "description": "A skeleton which can be used for creating package setup Jfrog pipelines tasks",
-  "main": "index.js",
+  "description": "JFrog Pipelines task to setup Yarn package manager",
+  "main": "setup.js",
   "scripts": {
-    "dist": "ncc build src/index.js -o dist",
+    "dist": "ncc build src/setup.js -o dist",
     "test": "jest --coverage"
   },
   "dependencies": {
@@ -22,12 +22,12 @@
   "keywords": [
     "pipelines",
     "jfrog",
-    "template"
+    "yarn"
   ],
   "author": "bhanur",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/bhanurp/setup-task-template/issues"
+    "url": "https://github.com/bhanurp/setup-yarn/issues"
   },
-  "homepage": "https://github.com/bhanurp/setup-task-template#readme"
+  "homepage": "https://github.com/bhanurp/setup-yarn#readme"
 }

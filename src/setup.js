@@ -1,14 +1,13 @@
 const tasks = require("jfrog-pipelines-tasks");
-const downloader = require("./downloader");
-const info = require("./info");
 const utils = require("./utils");
+const semver = require("semver");
 
 async function run() {
   try {
-    const message = await downloader.download("", "", "")
-    tasks.info("Command to install yarn:" + message)
-    installPackage(message)
-    await info.writeInfo()
+    const inputVersion = readAndValidateInput()
+    await validateNodeInstallation()
+    await installPackage(inputVersion)
+    await utils.writeInfo()
   } catch (err) {
     tasks.error(err)
     return err
@@ -16,20 +15,56 @@ async function run() {
 }
 
 /**
+ * read tasks input and validate
+ * @returns {string}
+ */
+function readAndValidateInput() {
+  let inputVersion = tasks.getInput("version");
+  if (!inputVersion) {
+    inputVersion = 'latest'
+  } else {
+    inputVersion = semver.valid(inputVersion);
+    if (!inputVersion) {
+      throw "version input must be semver compatible";
+    }
+  }
+  return inputVersion
+}
+
+/**
+ * Return the url used to download the package installer
+ * @returns {Promise<string>}
+ */
+async function validateNodeInstallation() {
+  try {
+    const commandOutput = await tasks.execute("node --version")
+    utils.handleCommandOutput(commandOutput)
+  } catch (e) {
+    throw new Error(e);
+  }
+}
+
+/**
  * Takes the command to run to install package
- * @param command
  * @returns {Promise<void>}
  */
-async function installPackage(command) {
+async function installPackage(inputVersion) {
   try {
-    const installCommandOutput = await tasks.execute("npm install --global yarn")
+    const installCommandOutput = await tasks.execute(`npm install --global yarn@${inputVersion}`)
     utils.handleCommandOutput(installCommandOutput)
   } catch (e) {
-    tasks.error(err)
-    throw new Error(e)
+    tasks.error(e)
+    throw new Error('failed to install yarn')
   }
 }
 
 module.exports = {
   run,
+  installPackage,
+  readAndValidateInput,
+  validateNodeInstallation,
 };
+
+if (require.main === module) {
+  run();
+}

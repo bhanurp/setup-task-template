@@ -12,6 +12,10 @@ function handleCommandOutput(commandOutput) {
   }
 }
 
+/**
+ * write node and yarn installed versions
+ * @returns {Promise<void>}
+ */
 async function writeInfo() {
   const nodeCommandOutput = await tasks.execute("node --version")
   handleCommandOutput(nodeCommandOutput)

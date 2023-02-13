@@ -1,15 +1,11 @@
-name: setup-task
-description: Setup package task
-source: bhanurp/setup-task-template
+name: setup-yarn
+description: Setup yarn package manager
+source: bhanurp/setup-yarn
 labels:
-  - template
+  - yarn
   - setup
 input:
   - name: version
     description: version to be installed
-  - name: cacheIntegration
-    description: Artifactory integration to be used to cache the installer. If not provided, the first Artifactory integration available to the step will be used.
-  - name: cacheRepository
-    description: Artifactory repository to be used to cache the installer. If not provided, caching will not be used.
 execution:
-  - node16 dist/index.js main
+  - node16 dist/setup.js main
