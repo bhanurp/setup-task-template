@@ -10,6 +10,8 @@ resources:
       branches:
         include: ^{{ .Values.mainBranch }}$
       cloneProtocol: https
+      buildOn:
+        commit: true
 
 pipelines:
   - name: yarn_setup_test
@@ -41,7 +43,7 @@ pipelines:
               input:
                 version: "{{ .Values.nodeVersion }}"
           onExecute:
-            - pushd $res_package_template_resourcePath
+            - pushd $res_setup_yarn_resourcePath
             # Configure JFrog CLI
             - jfrog npmc --repo-resolve $RESOLVE_REPO
             # Install npm dependencies
@@ -54,6 +56,8 @@ pipelines:
             # Run task
             - task: $res_setup_yarn_resourcePath
               id: setup_yarn_test
+              input:
+                version:
             - echo "setup yarn completed"
           onComplete:
             - echo "setup task template Test done!"
