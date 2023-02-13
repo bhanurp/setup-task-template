@@ -86,7 +86,7 @@ pipelines:
             - npx jest --coverage
             - popd
             # Run task
-            - task: setup-yarn@0.0.1
+            - task: setup-yarn@v0.0.1
               id: setup_yarn_test
           onComplete:
             - echo "Frogbot Test done!"
