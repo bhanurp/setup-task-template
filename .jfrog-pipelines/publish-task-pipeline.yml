@@ -66,6 +66,8 @@ pipelines:
             - name: build_and_publish_task
           inputResources:
             - name: setup_yarn_publish
+          integrations:
+            - name: {{ .Values.artIntegration }}
         execution:
           onStart:
             - task: jfrog/setup-node@v0.0.1
