@@ -2,7 +2,7 @@ template: true
 valuesFilePath: ./values.yml
 
 resources:
-  - name: setup-yarn
+  - name: setup_yarn
     type: GitRepo
     configuration:
       path: {{ .Values.repoPath }}
