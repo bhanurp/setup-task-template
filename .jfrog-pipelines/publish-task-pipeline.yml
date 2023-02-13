@@ -75,7 +75,7 @@ pipelines:
               input:
                 version: "{{ .Values.nodeVersion }}"
           onExecute:
-            - pushd $res_frogbot_publish_gitrepo_resourcePath
+            - pushd $res_setup_yarn_publish_resourcePath
             # Configure JFrog CLI
             - jf npmc --repo-resolve $RESOLVE_REPO
             # Install npm dependencies
