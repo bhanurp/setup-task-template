@@ -52,8 +52,8 @@ pipelines:
             - npx jest --coverage
             - popd
             # Run task
-            - task: $res_package_template_resourcePath
-              id: package_template_test
-            - echo "package_template task executed successfully"
+            - task: $res_setup_yarn_resourcePath
+              id: setup_yarn_test
+            - echo "setup yarn completed"
           onComplete:
             - echo "setup task template Test done!"
