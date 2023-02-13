@@ -2,7 +2,7 @@ template: true
 valuesFilePath: ./values.yml
 
 resources:
-  - name: setup_yarn
+  - name: setup_yarn_publish
     type: GitRepo
     configuration:
       path: {{ .Values.repoPath }}
@@ -33,7 +33,7 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
-            - name: setup_yarn
+            - name: setup_yarn_publish
           integrations:
             - name: {{ .Values.artIntegration }}
         execution:
@@ -53,7 +53,7 @@ pipelines:
             - task: jfrog/publish-task@v0.0.2
               id: publish-setup-yarn
               input:
-                path: $res_setup_yarn_resourcePath
+                path: $res_setup_yarn_publish_resourcePath
                 targetRepository: $TASK_REPOSITORY
                 taskName: $TASK_NAME
                 taskVersion: $TASK_VERSION
@@ -65,7 +65,7 @@ pipelines:
           inputSteps:
             - name: build_and_publish_task
           inputResources:
-            - name: setup_yarn
+            - name: setup_yarn_publish
         execution:
           onStart:
             - task: jfrog/setup-node@v0.0.1
